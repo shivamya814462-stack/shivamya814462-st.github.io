@@ -1,132 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday My Love ❤️</title>
+<title>Birthday Surprise 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* 🌸 BASIC STYLE */
 body{
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  font-family:'Segoe UI', sans-serif;
+  background: linear-gradient(120deg,#ff758c,#ff7eb3);
   text-align:center;
-  background:linear-gradient(135deg,#ff758c,#ff7eb3);
-  color:white;
   overflow:hidden;
 }
 
-.box{
-  background:rgba(0,0,0,0.25);
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.3);
-  max-width:360px;
+.page{
+  display:none;
+  height:100vh;
+  padding:40px 20px;
 }
+
+.page.active{display:block;}
+h1,p{color:#fff;}
 
 button{
-  margin-top:15px;
-  padding:12px 22px;
-  font-size:16px;
+  padding:12px 26px;
+  font-size:18px;
   border:none;
-  border-radius:25px;
-  background:#ff4d6d;
-  color:white;
+  border-radius:30px;
   cursor:pointer;
+  margin:10px;
 }
 
-button:hover{
-  transform:scale(1.05);
-}
+.yes{background:#28a745;color:#fff;}
+.no{background:#dc3545;color:#fff;position:absolute;}
+.next{background:#ff4d6d;color:#fff;}
 
-/* 🎊 CONFETTI */
-.confetti{
+canvas{
   position:fixed;
-  top:-10px;
-  width:14px;
-  height:14px;
-  animation: fall linear infinite;
-  opacity:0.9;
-}
-
-/* ❤️ HEART SHAPE */
-.confetti.heart{
-  background:red;
-  transform: rotate(45deg);
-}
-.confetti.heart::before,
-.confetti.heart::after{
-  content:"";
-  position:absolute;
-  width:14px;
-  height:14px;
-  background:red;
-  border-radius:50%;
-}
-.confetti.heart::before{
-  top:-7px;
-  left:0;
-}
-.confetti.heart::after{
-  left:-7px;
   top:0;
+  left:0;
+  pointer-events:none;
 }
 
-@keyframes fall{
-  to{
-    transform: translateY(110vh) rotate(360deg);
-  }
+/* Floating hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  animation:floatUp 6s linear forwards;
+}
+@keyframes floatUp{
+  to{transform:translateY(-120vh);opacity:0;}
+}
+
+/* Cake */
+#cake{
+  font-size:120px;
+  cursor:pointer;
+  transition:transform .6s;
+}
+.cut{
+  transform:rotate(-10deg) scale(1.1);
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-  <h1>🎉 Happy Birthday 🎉</h1>
-  <h2>My Love ❤️</h2>
-  <p>
-    You are not just special today,<br>
-    you are special every single day 💕
-  </p>
+<canvas id="confetti"></canvas>
 
-  <button onclick="heartBlast()">🎊 Tap for Love</button>
-  <button onclick="toggleParty()">🕺 Party Mode</button>
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1>Hey 💕</h1>
+  <p>A surprise is waiting for you 🎁</p>
+  <button class="next" onclick="go(2)">Start</button>
+</div>
 
-  <p style="margin-top:15px;font-size:14px;">
-    — Always Yours, Shivam 💖
-  </p>
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <h1>🧩 Puzzle</h1>
+  <p>I make your day colorful 🌈<br>I live in your heart ❤️</p>
+  <button class="next" onclick="go(3)">Next 😍</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <h1>One Question 😏</h1>
+  <p>Will you keep smiling forever?</p>
+  <button class="yes" onclick="celebrate()">YES 💖</button>
+  <button class="no" id="noBtn">NO 😜</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <h1>🎂 Cut the Cake 🎂</h1>
+  <div id="cake" onclick="cutCake()">🧁</div>
+  <p id="cakeText">Tap the cake 👆</p>
 </div>
 
 <script>
-/* ❤️ HEART BLAST */
-function heartBlast(){
-  for(let i=0;i<120;i++){
-    const h = document.createElement("div");
-    h.className = "confetti heart";
-    h.style.left = Math.random()*100 + "vw";
-    h.style.animationDuration = (Math.random()*3 + 2) + "s";
+// page switch
+function go(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+}
+
+// NO button escape
+const noBtn=document.getElementById("noBtn");
+noBtn.onmouseover=()=>{
+  noBtn.style.left=Math.random()*(innerWidth-100)+"px";
+  noBtn.style.top=Math.random()*(innerHeight-50)+"px";
+};
+
+// ❤️ Floating hearts
+function hearts(){
+  setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=20+Math.random()*30+"px";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),6000);
+  },300);
+}
+
+// 💥 Heart confetti
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+let conf=[];
+
+function heartConfetti(){
+  for(let i=0;i<150;i++){
+    conf.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height-canvas.height,
+      s:Math.random()*12+8,
+      sp:Math.random()*3+2
+    });
   }
 }
 
-/* 🕺 INFINITE PARTY MODE */
-let partyOn = false;
-let partyInterval;
+function drawConfetti(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  conf.forEach(c=>{
+    ctx.font=c.s+"px Arial";
+    ctx.fillText("💖",c.x,c.y);
+    c.y+=c.sp;
+    if(c.y>canvas.height)c.y=-20;
+  });
+  requestAnimationFrame(drawConfetti);
+}
 
-function toggleParty(){
-  if(!partyOn){
-    partyInterval = setInterval(heartBlast, 1500);
-    partyOn = true;
-  }else{
-    clearInterval(partyInterval);
-    partyOn = false;
-  }
+// YES celebration
+function celebrate(){
+  go(4);
+  hearts();
+  heartConfetti();
+  drawConfetti();
+}
+
+// 🧁 Cake cutting
+function cutCake(){
+  document.getElementById("cake").classList.add("cut");
+  document.getElementById("cakeText").innerHTML=
+    "🎉 HAPPY BIRTHDAY 🎉<br>You are my sweetest reason to smile 💖";
 }
 </script>
 
