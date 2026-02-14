@@ -15,11 +15,36 @@ body{
   overflow:hidden;
 }
 
+/* GLOBAL SLIDESHOW (ALL PAGES) */
+.slideshow{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:90vw;
+  max-width:500px;
+  height:500px;
+  z-index:0;
+}
+.slide{
+  width:100%;
+  height:100%;
+  position:absolute;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1s ease-in-out;
+  border-radius:30px;
+  box-shadow:0 20px 45px rgba(0,0,0,0.35);
+}
+.slide.active{opacity:1;}
+
 /* PAGES */
 .page{
   display:none;
   height:100vh;
   padding:40px 20px;
+  position:relative;
+  z-index:2; /* text above image */
 }
 .page.active{display:block;}
 h1,p{color:#fff;}
@@ -37,39 +62,21 @@ button{
 .no{background:#dc3545;color:#fff;position:absolute;}
 .next{background:#ff4d6d;color:#fff;}
 
-/* 🔥 BIG RESPONSIVE SLIDESHOW */
-.slideshow{
-  width:90vw;          /* mobile full look */
-  max-width:450px;    /* desktop limit */
-  height:450px;
-  margin:25px auto;
-  position:relative;
-}
-.slide{
-  width:100%;
-  height:100%;
-  position:absolute;
-  object-fit:cover;
-  opacity:0;
-  transition:opacity 1s ease-in-out;
-  border-radius:25px;
-  box-shadow:0 15px 35px rgba(0,0,0,0.3);
-}
-.slide.active{opacity:1;}
-
 /* CONFETTI */
 canvas{
   position:fixed;
   top:0;
   left:0;
   pointer-events:none;
+  z-index:3;
 }
 
-/* HEARTS */
+/* FLOATING HEARTS */
 .heart{
   position:fixed;
   bottom:-20px;
   animation:floatUp 6s linear forwards;
+  z-index:3;
 }
 @keyframes floatUp{
   to{transform:translateY(-120vh);opacity:0;}
@@ -87,19 +94,19 @@ canvas{
 
 <body>
 
+<!-- SLIDESHOW (VISIBLE ON ALL PAGES) -->
+<div class="slideshow">
+  <img src="photo1.jpg" class="slide active">
+  <img src="photo2.jpg" class="slide">
+  <img src="photo3.jpg" class="slide">
+</div>
+
 <canvas id="confetti"></canvas>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
   <h1>Hey 💕</h1>
   <p>A surprise is waiting for you 🎁</p>
-
-  <div class="slideshow">
-    <img src="photo1.jpg" class="slide active">
-    <img src="photo2.jpg" class="slide">
-    <img src="photo3.jpg" class="slide">
-  </div>
-
   <button class="next" onclick="go(2)">Start</button>
 </div>
 
@@ -196,7 +203,7 @@ function cutCake(){
     "🎉 HAPPY BIRTHDAY 🎉<br>You are my sweetest reason to smile 💖";
 }
 
-/* SLIDESHOW */
+/* SLIDESHOW LOGIC */
 let slides=document.querySelectorAll(".slide");
 let index=0;
 setInterval(()=>{
