@@ -1,0 +1,31 @@
+.heart {
+  position: relative;
+  display: inline-block;
+  color: red;
+  animation: float 2s alternate infinite;
+}
+
+@keyframes float {
+  0% { transform: translatey(0); }
+  100% { transform: translatey(-20px); }
+}
+
+.celebration {
+  position: absolute;
+  animation: celebrate 1s forwards;
+}
+
+@keyframes celebrate {
+  0% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+/* Additional floating hearts styles */
+.floating-hearts {
+  position: relative;
+}
+
+.floating-hearts .heart {
+  animation: float 3s linear infinite;
+}
