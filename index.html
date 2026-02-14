@@ -37,11 +37,12 @@ button{
 .no{background:#dc3545;color:#fff;position:absolute;}
 .next{background:#ff4d6d;color:#fff;}
 
-/* SLIDESHOW */
+/* 🔥 BIG RESPONSIVE SLIDESHOW */
 .slideshow{
-  width:300px;
-  height:300px;
-  margin:30px auto;
+  width:90vw;          /* mobile full look */
+  max-width:450px;    /* desktop limit */
+  height:450px;
+  margin:25px auto;
   position:relative;
 }
 .slide{
@@ -51,7 +52,8 @@ button{
   object-fit:cover;
   opacity:0;
   transition:opacity 1s ease-in-out;
-  border-radius:20px;
+  border-radius:25px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.3);
 }
 .slide.active{opacity:1;}
 
@@ -92,11 +94,11 @@ canvas{
   <h1>Hey 💕</h1>
   <p>A surprise is waiting for you 🎁</p>
 
- <div class="slideshow">
-  <img src="photo1.jpg" class="slide active">
-  <img src="photo2.jpg" class="slide">
-  <img src="photo3.jpg" class="slide">
-</div>
+  <div class="slideshow">
+    <img src="photo1.jpg" class="slide active">
+    <img src="photo2.jpg" class="slide">
+    <img src="photo3.jpg" class="slide">
+  </div>
 
   <button class="next" onclick="go(2)">Start</button>
 </div>
@@ -194,7 +196,7 @@ function cutCake(){
     "🎉 HAPPY BIRTHDAY 🎉<br>You are my sweetest reason to smile 💖";
 }
 
-/* SLIDESHOW LOGIC */
+/* SLIDESHOW */
 let slides=document.querySelectorAll(".slide");
 let index=0;
 setInterval(()=>{
