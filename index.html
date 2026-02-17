@@ -2,28 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For Priyanka 💖</title>
+<title>Birthday Surprise 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(120deg,#ff5f9e,#ff87ab);
+  background:linear-gradient(120deg,#ff758c,#ff7eb3);
   overflow:hidden;
+  text-align:center;
 }
 
 /* NAME */
 .name{
   position:fixed;
-  top:18px;
+  top:15px;
   width:100%;
-  text-align:center;
-  font-size:34px;
-  font-weight:800;
   color:#fff;
-  letter-spacing:2px;
-  z-index:5;
+  font-size:32px;
+  font-weight:700;
+  z-index:6;
 }
 
 /* NAME GLOW */
@@ -31,99 +30,117 @@ body{
   animation:glowPulse 1.2s ease-in-out;
 }
 @keyframes glowPulse{
-  0%{
-    text-shadow:0 0 5px #fff;
-    transform:scale(1);
-  }
+  0%{text-shadow:0 0 5px #fff}
   40%{
-    text-shadow:
-      0 0 15px #fff,
-      0 0 30px #ff2f6d,
-      0 0 55px #ff2f6d;
-    transform:scale(1.15);
+    text-shadow:0 0 20px #fff,0 0 40px #ff2f6d;
+    transform:scale(1.15)
   }
-  100%{
-    text-shadow:0 0 5px #fff;
-    transform:scale(1);
-  }
+  100%{text-shadow:0 0 5px #fff}
 }
 
-/* IMAGE FIELD */
+/* BACKGROUND RUNNING IMAGES */
 #field{
   position:fixed;
   inset:0;
-  overflow:hidden;
   z-index:1;
+  overflow:hidden;
 }
-
-/* RUNNING IMAGES */
 .runner{
   position:absolute;
-  width:190px;
+  width:180px;
   border-radius:22px;
-  box-shadow:0 18px 45px rgba(0,0,0,.35);
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
   cursor:pointer;
-  animation-timing-function:linear;
 }
+.leftRight{top:20%;animation:lr 15s linear infinite}
+.rightLeft{top:55%;animation:rl 17s linear infinite}
+.topBottom{left:15%;animation:tb 19s linear infinite}
+.bottomTop{left:65%;animation:bt 21s linear infinite}
 
-/* DIRECTIONS */
-.leftRight{ animation:lr 15s linear infinite; top:22%; }
-.rightLeft{ animation:rl 17s linear infinite; top:55%; }
-.topBottom{ animation:tb 19s linear infinite; left:15%; }
-.bottomTop{ animation:bt 21s linear infinite; left:65%; }
-
-@keyframes lr{
-  from{transform:translateX(-120%)}
-  to{transform:translateX(120vw)}
-}
-@keyframes rl{
-  from{transform:translateX(120vw)}
-  to{transform:translateX(-120%)}
-}
-@keyframes tb{
-  from{transform:translateY(-120%)}
-  to{transform:translateY(120vh)}
-}
-@keyframes bt{
-  from{transform:translateY(120vh)}
-  to{transform:translateY(-120%)}
-}
+@keyframes lr{from{transform:translateX(-120%)}to{transform:translateX(120vw)}}
+@keyframes rl{from{transform:translateX(120vw)}to{transform:translateX(-120%)}}
+@keyframes tb{from{transform:translateY(-120%)}to{transform:translateY(120vh)}}
+@keyframes bt{from{transform:translateY(120vh)}to{transform:translateY(-120%)}}
 
 /* DUPLICATE BOUNCE */
 .bounce{
-  animation:bounce 1.2s ease-out forwards !important;
+  animation:bounce 1.2s ease-out forwards;
   z-index:10;
 }
 @keyframes bounce{
   0%{transform:scale(1)}
-  30%{transform:scale(1.35)}
-  60%{transform:scale(.9)}
+  40%{transform:scale(1.4)}
   100%{transform:scale(1)}
 }
 
-/* CENTER CONTENT */
-.page{
-  position:relative;
-  z-index:4;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  text-align:center;
+/* SLIDESHOW (ORIGINAL – SAFE) */
+.slideshow{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:90vw;
+  max-width:420px;
+  height:420px;
+  z-index:3;
 }
-.page h1{font-size:38px}
-.page p{font-size:20px;margin-top:10px}
+.slide{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:1s;
+  border-radius:30px;
+}
+.slide.active{opacity:1}
+
+/* PAGES */
+.page{
+  display:none;
+  min-height:100vh;
+  padding-top:120px;
+  position:relative;
+  z-index:5;
+}
+.page.active{display:block}
+h1,p{color:#fff}
+
+/* BUTTONS */
+button{
+  padding:12px 26px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  margin:10px;
+  cursor:pointer;
+}
+.yes{background:#2ecc71;color:#fff}
+.no{background:#e74c3c;color:#fff;position:absolute}
+.next{background:#ff2f6d;color:#fff}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  animation:float 6s linear forwards;
+  z-index:6;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0}
+}
+
+/* CAKE */
+#cake{font-size:120px;cursor:pointer}
+.cut{transform:scale(1.15) rotate(-8deg)}
 </style>
 </head>
 
 <body>
 
-<!-- NAME -->
 <div class="name" id="herName">PRIYANKA 💖</div>
 
-<!-- RUNNING PHOTOS -->
+<!-- BACKGROUND RUNNERS -->
 <div id="field">
   <img src="photo1.jpg" class="runner leftRight">
   <img src="photo2.jpg" class="runner rightLeft">
@@ -131,37 +148,105 @@ body{
   <img src="photo1.jpg" class="runner bottomTop">
 </div>
 
-<!-- TEXT -->
-<div class="page">
-  <h1>Just For You 💕</h1>
-  <p>Tap any photo ✨</p>
+<!-- ORIGINAL SLIDESHOW -->
+<div class="slideshow">
+  <img src="photo1.jpg" class="slide active">
+  <img src="photo2.jpg" class="slide">
+  <img src="photo3.jpg" class="slide">
+</div>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1>Hey 💕</h1>
+  <p>A surprise is waiting 🎁</p>
+  <button class="next" onclick="go(2)">Start</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <h1>🧩 Puzzle</h1>
+  <p>I live in your heart ❤️</p>
+  <button class="next" onclick="go(3)">Next</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <h1>One Question 😏</h1>
+  <p>Will you smile forever?</p>
+  <button class="yes" onclick="celebrate()">YES 💖</button>
+  <button class="no" id="noBtn">NO 😜</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <h1>🎂 Cut the Cake 🎂</h1>
+  <div id="cake" onclick="cutCake()">🧁</div>
+  <p id="cakeText">Tap the cake 👆</p>
 </div>
 
 <script>
-const nameGlow=document.getElementById("herName");
+/* PAGE SWITCH */
+function go(n){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById("p"+n).classList.add("active");
+}
+
+/* NO BUTTON */
+const noBtn=document.getElementById("noBtn");
+noBtn.onmouseover=()=>{
+ noBtn.style.left=Math.random()*(innerWidth-120)+"px";
+ noBtn.style.top=Math.random()*(innerHeight-60)+"px";
+};
+
+/* HEARTS */
+function hearts(){
+ setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+ },300);
+}
+
+/* CELEBRATE */
+function celebrate(){
+ go(4);
+ hearts();
+}
+
+/* CAKE */
+function cutCake(){
+ cake.classList.add("cut");
+ cakeText.innerHTML="🎉 HAPPY BIRTHDAY PRIYANKA 🎉";
+}
+
+/* SLIDESHOW */
+let slides=document.querySelectorAll(".slide"),i=0;
+setInterval(()=>{
+ slides[i].classList.remove("active");
+ i=(i+1)%slides.length;
+ slides[i].classList.add("active");
+},2500);
 
 /* IMAGE CLICK EFFECT */
+const nameGlow=document.getElementById("herName");
 document.querySelectorAll(".runner").forEach(img=>{
-  img.addEventListener("click",()=>{
+ img.onclick=()=>{
+  const c=img.cloneNode(true);
+  c.classList.add("bounce");
+  const r=img.getBoundingClientRect();
+  c.style.left=r.left+"px";
+  c.style.top=r.top+"px";
+  c.style.position="fixed";
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),1300);
 
-    /* DUPLICATE + BOUNCE */
-    const clone=img.cloneNode(true);
-    clone.classList.remove("leftRight","rightLeft","topBottom","bottomTop");
-    clone.classList.add("bounce");
-
-    const r=img.getBoundingClientRect();
-    clone.style.left=r.left+"px";
-    clone.style.top=r.top+"px";
-    clone.style.position="fixed";
-
-    document.body.appendChild(clone);
-    setTimeout(()=>clone.remove(),1300);
-
-    /* NAME GLOW */
-    nameGlow.classList.remove("glow");
-    void nameGlow.offsetWidth; // reset animation
-    nameGlow.classList.add("glow");
-  });
+  nameGlow.classList.remove("glow");
+  void nameGlow.offsetWidth;
+  nameGlow.classList.add("glow");
+ };
 });
 </script>
 
