@@ -11,221 +11,158 @@ body{
   font-family:'Segoe UI',sans-serif;
   background:linear-gradient(120deg,#ff5f9e,#ff87ab);
   overflow:hidden;
-  text-align:center;
 }
 
 /* NAME */
 .name{
+  position:fixed;
+  top:18px;
+  width:100%;
+  text-align:center;
   font-size:34px;
-  font-weight:700;
+  font-weight:800;
   color:#fff;
-  margin-bottom:10px;
   letter-spacing:2px;
+  z-index:5;
 }
 
-/* RUNNING SLIDESHOW */
+/* NAME GLOW */
+.glow{
+  animation:glowPulse 1.2s ease-in-out;
+}
+@keyframes glowPulse{
+  0%{
+    text-shadow:0 0 5px #fff;
+    transform:scale(1);
+  }
+  40%{
+    text-shadow:
+      0 0 15px #fff,
+      0 0 30px #ff2f6d,
+      0 0 55px #ff2f6d;
+    transform:scale(1.15);
+  }
+  100%{
+    text-shadow:0 0 5px #fff;
+    transform:scale(1);
+  }
+}
+
+/* IMAGE FIELD */
+#field{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:1;
+}
+
+/* RUNNING IMAGES */
 .runner{
-  position:fixed;
-  top:50%;
-  left:-40%;
-  transform:translateY(-50%);
-  z-index:0;
-}
-.runner img{
-  width:240px;
-  border-radius:25px;
-  box-shadow:0 20px 45px rgba(0,0,0,.35);
-  animation:run 7s linear infinite;
-}
-@keyframes run{
-  0%{transform:translateX(-120%)}
-  100%{transform:translateX(220%)}
+  position:absolute;
+  width:190px;
+  border-radius:22px;
+  box-shadow:0 18px 45px rgba(0,0,0,.35);
+  cursor:pointer;
+  animation-timing-function:linear;
 }
 
-/* PAGES */
+/* DIRECTIONS */
+.leftRight{ animation:lr 15s linear infinite; top:22%; }
+.rightLeft{ animation:rl 17s linear infinite; top:55%; }
+.topBottom{ animation:tb 19s linear infinite; left:15%; }
+.bottomTop{ animation:bt 21s linear infinite; left:65%; }
+
+@keyframes lr{
+  from{transform:translateX(-120%)}
+  to{transform:translateX(120vw)}
+}
+@keyframes rl{
+  from{transform:translateX(120vw)}
+  to{transform:translateX(-120%)}
+}
+@keyframes tb{
+  from{transform:translateY(-120%)}
+  to{transform:translateY(120vh)}
+}
+@keyframes bt{
+  from{transform:translateY(120vh)}
+  to{transform:translateY(-120%)}
+}
+
+/* DUPLICATE BOUNCE */
+.bounce{
+  animation:bounce 1.2s ease-out forwards !important;
+  z-index:10;
+}
+@keyframes bounce{
+  0%{transform:scale(1)}
+  30%{transform:scale(1.35)}
+  60%{transform:scale(.9)}
+  100%{transform:scale(1)}
+}
+
+/* CENTER CONTENT */
 .page{
-  display:none;
-  min-height:100vh;
-  padding:60px 20px;
   position:relative;
-  z-index:2;
+  z-index:4;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  text-align:center;
 }
-.page.active{display:block}
-h1,p{color:#fff}
-
-/* BUTTONS */
-button{
-  padding:14px 28px;
-  font-size:18px;
-  border:none;
-  border-radius:30px;
-  margin:12px;
-  cursor:pointer;
-}
-.next{background:#ff2f6d;color:#fff}
-.yes{background:#2ecc71;color:#fff}
-.no{background:#e74c3c;color:#fff;position:absolute}
-
-/* TYPEWRITER */
-.type{
-  font-size:20px;
-  margin-top:20px;
-  min-height:60px;
-}
-
-/* HEARTS */
-.heart{
-  position:fixed;
-  bottom:-20px;
-  font-size:24px;
-  animation:float 6s linear forwards;
-  z-index:3;
-}
-@keyframes float{
-  to{transform:translateY(-120vh);opacity:0}
-}
-
-/* CAKE */
-#cake{
-  font-size:120px;
-  cursor:pointer;
-  transition:.6s;
-}
-.cut{transform:scale(1.15) rotate(-8deg)}
-
-/* PUZZLE */
-.puzzle{
-  background:rgba(255,255,255,.15);
-  border-radius:25px;
-  padding:25px;
-  max-width:420px;
-  margin:auto;
-  backdrop-filter:blur(10px);
-}
-.option{
-  background:#fff;
-  color:#ff2f6d;
-  padding:12px;
-  border-radius:20px;
-  margin:10px;
-  cursor:pointer;
-  font-weight:600;
-}
-.option:hover{background:#ffe1ec}
+.page h1{font-size:38px}
+.page p{font-size:20px;margin-top:10px}
 </style>
 </head>
 
 <body>
 
-<!-- RUNNING PHOTO -->
-<div class="runner">
-  <img id="slide" src="photo1.jpg">
+<!-- NAME -->
+<div class="name" id="herName">PRIYANKA 💖</div>
+
+<!-- RUNNING PHOTOS -->
+<div id="field">
+  <img src="photo1.jpg" class="runner leftRight">
+  <img src="photo2.jpg" class="runner rightLeft">
+  <img src="photo3.jpg" class="runner topBottom">
+  <img src="photo1.jpg" class="runner bottomTop">
 </div>
 
-<!-- PAGE 1 -->
-<div class="page active" id="p1">
-  <div class="name">PRIYANKA 💖</div>
-  <h1>Hey Beautiful 🌸</h1>
-  <p class="type" id="t1"></p>
-  <button class="next" onclick="go(2)">Start Surprise 🎁</button>
-</div>
-
-<!-- PAGE 2 : LONG PUZZLE -->
-<div class="page" id="p2">
-  <div class="name">PRIYANKA 💕</div>
-  <h1>🧩 Little Puzzle</h1>
-  <div class="puzzle">
-    <p>Which one is TRUE about you?</p>
-    <div class="option" onclick="wrong()">I am ordinary 😐</div>
-    <div class="option" onclick="wrong()">I don't matter 😕</div>
-    <div class="option" onclick="correct()">I make Shivam smile 😍</div>
-  </div>
-</div>
-
-<!-- PAGE 3 -->
-<div class="page" id="p3">
-  <div class="name">PRIYANKA ❤️</div>
-  <h1>One Question 😏</h1>
-  <p>Will you stay this cute forever?</p>
-  <button class="yes" onclick="celebrate()">YES 💖</button>
-  <button class="no" id="noBtn">NO 😜</button>
-</div>
-
-<!-- PAGE 4 -->
-<div class="page" id="p4">
-  <div class="name">Happy Birthday PRIYANKA 🎂</div>
-  <div id="cake" onclick="cutCake()">🧁</div>
-  <p id="cakeText">Tap the cake 👆</p>
+<!-- TEXT -->
+<div class="page">
+  <h1>Just For You 💕</h1>
+  <p>Tap any photo ✨</p>
 </div>
 
 <script>
-/* NAME FIX */
-const HER_NAME="PRIYANKA";
+const nameGlow=document.getElementById("herName");
 
-/* PAGE */
-function go(n){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById("p"+n).classList.add("active");
-}
+/* IMAGE CLICK EFFECT */
+document.querySelectorAll(".runner").forEach(img=>{
+  img.addEventListener("click",()=>{
 
-/* TYPEWRITER */
-const text1="A little magic is waiting just for you 💫";
-let i=0;
-function type(){
- if(i<text1.length){
-  document.getElementById("t1").innerHTML+=text1.charAt(i);
-  i++;setTimeout(type,60);
- }
-}
-type();
+    /* DUPLICATE + BOUNCE */
+    const clone=img.cloneNode(true);
+    clone.classList.remove("leftRight","rightLeft","topBottom","bottomTop");
+    clone.classList.add("bounce");
 
-/* PUZZLE */
-function wrong(){
- alert("Nope 😜 Try again!");
-}
-function correct(){
- go(3);
-}
+    const r=img.getBoundingClientRect();
+    clone.style.left=r.left+"px";
+    clone.style.top=r.top+"px";
+    clone.style.position="fixed";
 
-/* NO BUTTON RUN */
-const noBtn=document.getElementById("noBtn");
-noBtn.onmouseover=()=>{
- noBtn.style.left=Math.random()*(innerWidth-120)+"px";
- noBtn.style.top=Math.random()*(innerHeight-60)+"px";
-};
+    document.body.appendChild(clone);
+    setTimeout(()=>clone.remove(),1300);
 
-/* HEARTS */
-function hearts(){
- setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*100+"vw";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
- },300);
-}
-
-/* CELEBRATE */
-function celebrate(){
- go(4);
- hearts();
-}
-
-/* CAKE */
-function cutCake(){
- document.getElementById("cake").classList.add("cut");
- document.getElementById("cakeText").innerHTML=
- `🎉 HAPPY BIRTHDAY ${priyanka} 🎉<br>You are truly special 💖`;
-}
-
-/* RUNNING SLIDES */
-const photos=["photo1.jpg","photo2.jpg","photo3.jpg"];
-let s=0;
-setInterval(()=>{
- document.getElementById("slide").src=photos[s];
- s=(s+1)%photos.length;
-},7000);
+    /* NAME GLOW */
+    nameGlow.classList.remove("glow");
+    void nameGlow.offsetWidth; // reset animation
+    nameGlow.classList.add("glow");
+  });
+});
 </script>
 
 </body>
