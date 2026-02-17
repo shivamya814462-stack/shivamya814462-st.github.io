@@ -2,145 +2,108 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Birthday Surprise 💖</title>
+<title>For Priyanka 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(120deg,#ff758c,#ff7eb3);
+  background:linear-gradient(120deg,#ff5f9e,#ff87ab);
   overflow:hidden;
-  text-align:center;
 }
 
 /* NAME */
 .name{
   position:fixed;
-  top:15px;
+  top:20px;
   width:100%;
-  color:#fff;
+  text-align:center;
   font-size:32px;
   font-weight:700;
-  z-index:6;
+  color:#fff;
+  z-index:5;
 }
 
-/* NAME GLOW */
-.glow{
-  animation:glowPulse 1.2s ease-in-out;
-}
-@keyframes glowPulse{
-  0%{text-shadow:0 0 5px #fff}
-  40%{
-    text-shadow:0 0 20px #fff,0 0 40px #ff2f6d;
-    transform:scale(1.15)
-  }
-  100%{text-shadow:0 0 5px #fff}
-}
-
-/* BACKGROUND RUNNING IMAGES */
+/* IMAGE CONTAINER */
 #field{
   position:fixed;
   inset:0;
-  z-index:1;
   overflow:hidden;
+  z-index:1;
 }
+
+/* RUNNING IMAGE */
 .runner{
   position:absolute;
   width:180px;
   border-radius:22px;
   box-shadow:0 15px 40px rgba(0,0,0,.35);
   cursor:pointer;
+  animation-timing-function:linear;
 }
-.leftRight{top:20%;animation:lr 15s linear infinite}
-.rightLeft{top:55%;animation:rl 17s linear infinite}
-.topBottom{left:15%;animation:tb 19s linear infinite}
-.bottomTop{left:65%;animation:bt 21s linear infinite}
 
-@keyframes lr{from{transform:translateX(-120%)}to{transform:translateX(120vw)}}
-@keyframes rl{from{transform:translateX(120vw)}to{transform:translateX(-120%)}}
-@keyframes tb{from{transform:translateY(-120%)}to{transform:translateY(120vh)}}
-@keyframes bt{from{transform:translateY(120vh)}to{transform:translateY(-120%)}}
+/* DIRECTIONS */
+.leftRight{ animation:lr 14s linear infinite; top:20%; }
+.rightLeft{ animation:rl 16s linear infinite; top:55%; }
+.topBottom{ animation:tb 18s linear infinite; left:15%; }
+.bottomTop{ animation:bt 20s linear infinite; left:65%; }
 
-/* DUPLICATE BOUNCE */
+@keyframes lr{
+  from{transform:translateX(-120%)}
+  to{transform:translateX(120vw)}
+}
+@keyframes rl{
+  from{transform:translateX(120vw)}
+  to{transform:translateX(-120%)}
+}
+@keyframes tb{
+  from{transform:translateY(-120%)}
+  to{transform:translateY(120vh)}
+}
+@keyframes bt{
+  from{transform:translateY(120vh)}
+  to{transform:translateY(-120%)}
+}
+
+/* BOUNCE DUPLICATE */
 .bounce{
-  animation:bounce 1.2s ease-out forwards;
+  animation:bounce 1.2s ease-out forwards !important;
   z-index:10;
 }
 @keyframes bounce{
   0%{transform:scale(1)}
-  40%{transform:scale(1.4)}
+  30%{transform:scale(1.3)}
+  60%{transform:scale(.9)}
   100%{transform:scale(1)}
 }
 
-/* SLIDESHOW (ORIGINAL – SAFE) */
-.slideshow{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:90vw;
-  max-width:420px;
-  height:420px;
-  z-index:3;
-}
-.slide{
-  position:absolute;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:1s;
-  border-radius:30px;
-}
-.slide.active{opacity:1}
-
-/* PAGES */
+/* PAGE CONTENT */
 .page{
-  display:none;
-  min-height:100vh;
-  padding-top:120px;
   position:relative;
-  z-index:5;
+  z-index:4;
+  min-height:100vh;
+  text-align:center;
+  padding-top:120px;
+  color:#fff;
 }
-.page.active{display:block}
-h1,p{color:#fff}
-
-/* BUTTONS */
 button{
-  padding:12px 26px;
+  padding:14px 28px;
   font-size:18px;
   border:none;
   border-radius:30px;
-  margin:10px;
-  cursor:pointer;
+  background:#ff2f6d;
+  color:#fff;
+  margin-top:25px;
 }
-.yes{background:#2ecc71;color:#fff}
-.no{background:#e74c3c;color:#fff;position:absolute}
-.next{background:#ff2f6d;color:#fff}
-
-/* HEARTS */
-.heart{
-  position:fixed;
-  bottom:-20px;
-  animation:float 6s linear forwards;
-  z-index:6;
-}
-@keyframes float{
-  to{transform:translateY(-120vh);opacity:0}
-}
-
-/* CAKE */
-#cake{font-size:120px;cursor:pointer}
-.cut{transform:scale(1.15) rotate(-8deg)}
 </style>
 </head>
 
 <body>
 
-<div class="name" id="herName">PRIYANKA 💖</div>
+<div class="name">PRIYANKA 💖</div>
 
-<!-- BACKGROUND RUNNERS -->
+<!-- IMAGE FIELD -->
 <div id="field">
   <img src="photo1.jpg" class="runner leftRight">
   <img src="photo2.jpg" class="runner rightLeft">
@@ -148,105 +111,29 @@ button{
   <img src="photo1.jpg" class="runner bottomTop">
 </div>
 
-<!-- ORIGINAL SLIDESHOW -->
-<div class="slideshow">
-  <img src="photo1.jpg" class="slide active">
-  <img src="photo2.jpg" class="slide">
-  <img src="photo3.jpg" class="slide">
-</div>
-
-<!-- PAGE 1 -->
-<div class="page active" id="p1">
-  <h1>Hey 💕</h1>
-  <p>A surprise is waiting 🎁</p>
-  <button class="next" onclick="go(2)">Start</button>
-</div>
-
-<!-- PAGE 2 -->
-<div class="page" id="p2">
-  <h1>🧩 Puzzle</h1>
-  <p>I live in your heart ❤️</p>
-  <button class="next" onclick="go(3)">Next</button>
-</div>
-
-<!-- PAGE 3 -->
-<div class="page" id="p3">
-  <h1>One Question 😏</h1>
-  <p>Will you smile forever?</p>
-  <button class="yes" onclick="celebrate()">YES 💖</button>
-  <button class="no" id="noBtn">NO 😜</button>
-</div>
-
-<!-- PAGE 4 -->
-<div class="page" id="p4">
-  <h1>🎂 Cut the Cake 🎂</h1>
-  <div id="cake" onclick="cutCake()">🧁</div>
-  <p id="cakeText">Tap the cake 👆</p>
+<!-- PAGE -->
+<div class="page">
+  <h1>Just for You 💕</h1>
+  <p>Tap any photo ✨</p>
+  <button>Enjoy the Magic 💫</button>
 </div>
 
 <script>
-/* PAGE SWITCH */
-function go(n){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById("p"+n).classList.add("active");
-}
-
-/* NO BUTTON */
-const noBtn=document.getElementById("noBtn");
-noBtn.onmouseover=()=>{
- noBtn.style.left=Math.random()*(innerWidth-120)+"px";
- noBtn.style.top=Math.random()*(innerHeight-60)+"px";
-};
-
-/* HEARTS */
-function hearts(){
- setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*100+"vw";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
- },300);
-}
-
-/* CELEBRATE */
-function celebrate(){
- go(4);
- hearts();
-}
-
-/* CAKE */
-function cutCake(){
- cake.classList.add("cut");
- cakeText.innerHTML="🎉 HAPPY BIRTHDAY PRIYANKA 🎉";
-}
-
-/* SLIDESHOW */
-let slides=document.querySelectorAll(".slide"),i=0;
-setInterval(()=>{
- slides[i].classList.remove("active");
- i=(i+1)%slides.length;
- slides[i].classList.add("active");
-},2500);
-
-/* IMAGE CLICK EFFECT */
-const nameGlow=document.getElementById("herName");
+/* CLICK → DUPLICATE + BOUNCE */
 document.querySelectorAll(".runner").forEach(img=>{
- img.onclick=()=>{
-  const c=img.cloneNode(true);
-  c.classList.add("bounce");
-  const r=img.getBoundingClientRect();
-  c.style.left=r.left+"px";
-  c.style.top=r.top+"px";
-  c.style.position="fixed";
-  document.body.appendChild(c);
-  setTimeout(()=>c.remove(),1300);
+  img.addEventListener("click",()=>{
+    const clone=img.cloneNode(true);
+    clone.classList.remove("leftRight","rightLeft","topBottom","bottomTop");
+    clone.classList.add("bounce");
 
-  nameGlow.classList.remove("glow");
-  void nameGlow.offsetWidth;
-  nameGlow.classList.add("glow");
- };
+    clone.style.left=img.getBoundingClientRect().left+"px";
+    clone.style.top=img.getBoundingClientRect().top+"px";
+    clone.style.position="fixed";
+
+    document.body.appendChild(clone);
+
+    setTimeout(()=>clone.remove(),1300);
+  });
 });
 </script>
 
