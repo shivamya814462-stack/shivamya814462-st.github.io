@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Birthday Surprise 💖</title>
+<title>For Priyanka 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* BODY */
 body{
   margin:0;
   font-family:'Segoe UI', sans-serif;
@@ -15,15 +14,19 @@ body{
   overflow:hidden;
 }
 
-/* GLOBAL SLIDESHOW (ALL PAGES) */
+:root{
+  --name:"PRIYANKA";
+}
+
+/* SLIDESHOW */
 .slideshow{
   position:fixed;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
   width:90vw;
-  max-width:500px;
-  height:500px;
+  max-width:480px;
+  height:480px;
   z-index:0;
 }
 .slide{
@@ -32,46 +35,58 @@ body{
   position:absolute;
   object-fit:cover;
   opacity:0;
-  transition:opacity 1s ease-in-out;
+  transition:opacity 1.2s ease;
   border-radius:30px;
-  box-shadow:0 20px 45px rgba(0,0,0,0.35);
+  box-shadow:0 25px 60px rgba(0,0,0,0.45);
 }
 .slide.active{opacity:1;}
 
-/* PAGES */
 .page{
   display:none;
   height:100vh;
   padding:40px 20px;
   position:relative;
-  z-index:2; /* text above image */
+  z-index:2;
 }
 .page.active{display:block;}
-h1,p{color:#fff;}
 
-/* BUTTONS */
+h1,p{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.3);}
+
 button{
-  padding:12px 26px;
+  padding:14px 28px;
   font-size:18px;
   border:none;
-  border-radius:30px;
+  border-radius:40px;
   cursor:pointer;
   margin:10px;
+  transition:.3s;
 }
+button:hover{transform:scale(1.05);}
+.next{background:#ff4d6d;color:#fff;}
 .yes{background:#28a745;color:#fff;}
 .no{background:#dc3545;color:#fff;position:absolute;}
-.next{background:#ff4d6d;color:#fff;}
 
-/* CONFETTI */
-canvas{
-  position:fixed;
-  top:0;
-  left:0;
-  pointer-events:none;
-  z-index:3;
+/* Puzzle box */
+.puzzle-box{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(8px);
+  border-radius:25px;
+  padding:25px;
+  max-width:420px;
+  margin:30px auto;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
 }
 
-/* FLOATING HEARTS */
+/* Typing */
+.typing{
+  border-right:3px solid #fff;
+  display:inline-block;
+  padding-right:6px;
+  animation:blink .7s infinite;
+}
+@keyframes blink{50%{border-color:transparent;}}
+
+/* Hearts */
 .heart{
   position:fixed;
   bottom:-20px;
@@ -82,71 +97,94 @@ canvas{
   to{transform:translateY(-120vh);opacity:0;}
 }
 
-/* CAKE */
-#cake{
-  font-size:120px;
-  cursor:pointer;
-  transition:transform .6s;
-}
-.cut{transform:rotate(-10deg) scale(1.1);}
+/* Cake */
+#cake{font-size:120px;cursor:pointer;}
+.cut{transform:scale(1.1) rotate(-8deg);}
 </style>
 </head>
 
 <body>
 
-<!-- SLIDESHOW (VISIBLE ON ALL PAGES) -->
 <div class="slideshow">
   <img src="photo1.jpg" class="slide active">
   <img src="photo2.jpg" class="slide">
   <img src="photo3.jpg" class="slide">
 </div>
 
-<canvas id="confetti"></canvas>
-
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
-  <h1>Hey 💕</h1>
-  <p>A surprise is waiting for you 🎁</p>
+  <h1>Hey <span class="name"></span> 💕</h1>
+  <p class="typing" id="t1"></p>
   <button class="next" onclick="go(2)">Start</button>
 </div>
 
-<!-- PAGE 2 -->
+<!-- PAGE 2 : LONG INTERACTIVE PUZZLE -->
 <div class="page" id="p2">
-  <h1>🧩 Puzzle</h1>
-  <p>I make your day colorful 🌈<br>I live in your heart ❤️</p>
-  <button class="next" onclick="go(3)">Next 😍</button>
+  <h1>🧩 A Little Puzzle For You, <span class="name"></span></h1>
+
+  <div class="puzzle-box">
+    <p class="typing" id="t2"></p>
+    <input id="answer" placeholder="Type your answer 💭"
+      style="padding:12px;width:80%;border-radius:20px;border:none;">
+    <br><br>
+    <button class="next" onclick="check()">Submit</button>
+    <p id="hint"></p>
+  </div>
 </div>
 
 <!-- PAGE 3 -->
 <div class="page" id="p3">
-  <h1>One Question 😏</h1>
-  <p>Will you keep smiling forever?</p>
+  <h1><span class="name"></span>, one last question 😏</h1>
+  <p>Will you always keep smiling like this?</p>
   <button class="yes" onclick="celebrate()">YES 💖</button>
   <button class="no" id="noBtn">NO 😜</button>
 </div>
 
 <!-- PAGE 4 -->
 <div class="page" id="p4">
-  <h1>🎂 Cut the Cake 🎂</h1>
+  <h1>🎂 Cut the Cake <span class="name"></span> 🎂</h1>
   <div id="cake" onclick="cutCake()">🧁</div>
   <p id="cakeText">Tap the cake 👆</p>
 </div>
 
 <script>
-/* PAGE SWITCH */
+const NAME="PRIYANKA";
+document.querySelectorAll(".name").forEach(n=>n.innerText=NAME);
+
+/* TYPEWRITER */
+function type(id,text,i=0){
+  if(i<text.length){
+    document.getElementById(id).innerHTML+=text.charAt(i);
+    setTimeout(()=>type(id,text,i+1),60);
+  }
+}
+type("t1","I made something special… just for you 💖");
+type("t2","I am not a flower 🌸, yet I make your world colorful. I am not music 🎵, yet I stay in your heart. Who am I?");
+
+/* Puzzle */
+function check(){
+  const a=document.getElementById("answer").value.toLowerCase();
+  if(a.includes("smile")||a.includes("love")||a.includes("you")){
+    go(3);
+  }else{
+    document.getElementById("hint").innerHTML="Hint: It's something only YOU have 😌";
+  }
+}
+
+/* Page switch */
 function go(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('p'+n).classList.add('active');
 }
 
-/* NO BUTTON ESCAPE */
+/* NO escape */
 const noBtn=document.getElementById("noBtn");
 noBtn.onmouseover=()=>{
   noBtn.style.left=Math.random()*(innerWidth-100)+"px";
   noBtn.style.top=Math.random()*(innerHeight-50)+"px";
 };
 
-/* FLOATING HEARTS */
+/* Hearts */
 function hearts(){
   setInterval(()=>{
     const h=document.createElement("div");
@@ -159,57 +197,25 @@ function hearts(){
   },300);
 }
 
-/* CONFETTI */
-const canvas=document.getElementById("confetti");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-let conf=[];
-
-function heartConfetti(){
-  for(let i=0;i<150;i++){
-    conf.push({
-      x:Math.random()*canvas.width,
-      y:Math.random()*canvas.height-canvas.height,
-      s:Math.random()*12+8,
-      sp:Math.random()*3+2
-    });
-  }
-}
-
-function drawConfetti(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  conf.forEach(c=>{
-    ctx.font=c.s+"px Arial";
-    ctx.fillText("💖",c.x,c.y);
-    c.y+=c.sp;
-    if(c.y>canvas.height)c.y=-20;
-  });
-  requestAnimationFrame(drawConfetti);
-}
-
-/* CELEBRATION */
+/* Celebrate */
 function celebrate(){
   go(4);
   hearts();
-  heartConfetti();
-  drawConfetti();
 }
 
-/* CAKE */
+/* Cake */
 function cutCake(){
   document.getElementById("cake").classList.add("cut");
   document.getElementById("cakeText").innerHTML=
-    "🎉 HAPPY BIRTHDAY 🎉<br>You are my sweetest reason to smile 💖";
+    `🎉 HAPPY BIRTHDAY ${NAME} 🎉<br>You are my favorite smile 💖`;
 }
 
-/* SLIDESHOW LOGIC */
-let slides=document.querySelectorAll(".slide");
-let index=0;
+/* Slideshow */
+let slides=document.querySelectorAll(".slide"),i=0;
 setInterval(()=>{
-  slides[index].classList.remove("active");
-  index=(index+1)%slides.length;
-  slides[index].classList.add("active");
+  slides[i].classList.remove("active");
+  i=(i+1)%slides.length;
+  slides[i].classList.add("active");
 },2500);
 </script>
 
