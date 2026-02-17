@@ -8,147 +8,239 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
+  height:100vh;
+  background:radial-gradient(circle,#ff5f9e,#ff2f6d);
   font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(120deg,#ff5f9e,#ff87ab);
   overflow:hidden;
+  color:#fff;
 }
 
 /* NAME */
-.name{
+#name{
   position:fixed;
-  top:20px;
+  top:18px;
   width:100%;
   text-align:center;
-  font-size:32px;
-  font-weight:700;
-  color:#fff;
-  z-index:20;
-  pointer-events:none;
+  font-size:34px;
+  font-weight:800;
+  z-index:50;
+}
+.glow{
+  text-shadow:0 0 15px #fff,0 0 35px #ffb6c1,0 0 70px #ff2f6d;
 }
 
-/* IMAGE CONTAINER (BACKGROUND ONLY) */
+/* IMAGE FIELD */
 #field{
   position:fixed;
   inset:0;
-  overflow:hidden;
   z-index:1;
-  pointer-events:none;   /* 🔥 MOST IMPORTANT FIX */
 }
-
-/* RUNNING IMAGE */
 .runner{
   position:absolute;
-  width:180px;
-  border-radius:22px;
-  box-shadow:0 15px 40px rgba(0,0,0,.35);
-  animation-timing-function:linear;
-  pointer-events:auto;   /* images still clickable */
+  width:160px;
+  border-radius:18px;
   cursor:pointer;
+  box-shadow:0 15px 40px rgba(0,0,0,.4);
 }
+.lr{top:25%;animation:lr 14s linear infinite}
+.rl{top:60%;animation:rl 16s linear infinite}
+@keyframes lr{from{left:-200px}to{left:110vw}}
+@keyframes rl{from{left:110vw}to{left:-200px}}
 
-/* DIRECTIONS */
-.leftRight{ top:20%; animation:lr 14s linear infinite; }
-.rightLeft{ top:55%; animation:rl 16s linear infinite; }
-.topBottom{ left:15%; animation:tb 18s linear infinite; }
-.bottomTop{ left:65%; animation:bt 20s linear infinite; }
-
-@keyframes lr{from{transform:translateX(-120%)}to{transform:translateX(120vw)}}
-@keyframes rl{from{transform:translateX(120vw)}to{transform:translateX(-120%)}}
-@keyframes tb{from{transform:translateY(-120%)}to{transform:translateY(120vh)}}
-@keyframes bt{from{transform:translateY(120vh)}to{transform:translateY(-120%)}}
-
-/* DUPLICATE BOUNCE */
-.clone{
-  position:fixed;
-  z-index:50;
-  animation:bounce 1.2s ease-out forwards;
-  pointer-events:none;
+.bounce{
+  animation:bounce 1s ease-out forwards!important;
+  z-index:100;
 }
 @keyframes bounce{
   0%{transform:scale(1)}
   40%{transform:scale(1.4)}
-  70%{transform:scale(.9)}
   100%{transform:scale(1)}
 }
 
-/* NAME GLOW */
-.glow{
-  animation:glow 1.2s ease-in-out;
+/* HEARTS */
+.heart{
+  position:fixed;
+  font-size:22px;
+  animation:fly 1.6s ease-out forwards;
+  pointer-events:none;
 }
-@keyframes glow{
-  0%{text-shadow:0 0 5px #fff}
-  50%{
-    text-shadow:0 0 20px #fff,0 0 40px #ff2f6d;
-    transform:scale(1.15);
-  }
-  100%{text-shadow:0 0 5px #fff}
+@keyframes fly{
+  to{transform:translateY(-140px) scale(1.6);opacity:0}
 }
 
-/* PAGE CONTENT (CLICKABLE) */
-.page{
-  position:relative;
-  z-index:10;   /* 🔥 above background */
-  min-height:100vh;
-  padding-top:120px;
+/* GAME CARD */
+#game{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+.card{
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(10px);
+  padding:35px;
+  border-radius:22px;
+  width:330px;
   text-align:center;
-  color:#fff;
+  box-shadow:0 30px 60px rgba(0,0,0,.4);
+}
+h2{margin-bottom:15px}
+#text{min-height:80px;font-size:18px}
+
+/* BUTTONS */
+.btns{
+  margin-top:20px;
+  display:flex;
+  justify-content:space-around;
 }
 button{
-  padding:14px 28px;
-  font-size:18px;
+  padding:12px 24px;
   border:none;
   border-radius:30px;
-  background:#ff2f6d;
-  color:#fff;
-  margin-top:25px;
+  font-size:16px;
   cursor:pointer;
+}
+.yes{background:#00ffb3;color:#000}
+.no{background:#ff4757;color:#fff;position:relative}
+
+/* CAKE */
+#cakeBox{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+#cake{
+  font-size:130px;
+  cursor:pointer;
+  transition:.4s;
+}
+.cut{transform:rotate(-10deg) scale(1.1)}
+#wish{
+  margin-top:20px;
+  font-size:22px;
+  text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<div class="name" id="herName">PRIYANKA 💖</div>
+<div id="name">PRIYANKA 💖</div>
 
-<!-- BACKGROUND RUNNING IMAGES -->
 <div id="field">
-  <img src="photo1.jpg" class="runner leftRight">
-  <img src="photo2.jpg" class="runner rightLeft">
-  <img src="photo3.jpg" class="runner topBottom">
-  <img src="photo1.jpg" class="runner bottomTop">
+  <img src="photo1.jpg" class="runner lr">
+  <img src="photo2.jpg" class="runner rl">
 </div>
 
-<!-- CLICKABLE UI -->
-<div class="page">
-  <h1>Just for You 💕</h1>
-  <p>Tap any photo ✨</p>
-  <button onclick="alert('Button works 😍')">Enjoy the Magic 💫</button>
+<!-- PUZZLE -->
+<div id="game">
+  <div class="card">
+    <h2>Romantic Puzzle 💌</h2>
+    <div id="text"></div>
+    <div class="btns">
+      <button class="yes">YES</button>
+      <button class="no">NO</button>
+    </div>
+  </div>
+</div>
+
+<!-- CAKE -->
+<div id="cakeBox">
+  <div id="cake">🎂</div>
+  <div id="wish"></div>
 </div>
 
 <script>
-const nameEl=document.getElementById("herName");
+/* PUZZLE TEXT */
+const steps=[
+  "Priyanka… kya tumhe surprises pasand hain? 😌",
+  "Kya tumhara smile sabse cute hai? 💕",
+  "Kya tumhe ye moment special lag raha hai? ✨",
+  "Kya tum thoda sa pagalpan enjoy karti ho? 😜",
+  "Last one… kya tum ready ho celebration ke liye? 🎂"
+];
 
-/* IMAGE CLICK */
+let step=0;
+const textEl=document.getElementById("text");
+const nameEl=document.getElementById("name");
+
+function typeText(t){
+  textEl.innerHTML="";
+  let i=0;
+  const iv=setInterval(()=>{
+    textEl.innerHTML+=t[i++];
+    if(i>=t.length) clearInterval(iv);
+  },40);
+}
+typeText(steps[0]);
+
+/* YES */
+document.querySelector(".yes").onclick=()=>{
+  step++;
+  if(step<steps.length){
+    typeText(steps[step]);
+  }else{
+    document.getElementById("game").style.display="none";
+    document.getElementById("cakeBox").style.display="flex";
+  }
+};
+
+/* NO */
+document.querySelector(".no").onclick=e=>{
+  e.target.style.left=Math.random()*120-60+"px";
+  e.target.style.top=Math.random()*80-40+"px";
+};
+
+/* IMAGE CLICK MAGIC */
 document.querySelectorAll(".runner").forEach(img=>{
-  img.addEventListener("click",(e)=>{
-    e.stopPropagation();
-
-    const clone=img.cloneNode(true);
-    clone.className="clone";
+  img.onclick=()=>{
+    nameEl.classList.add("glow");
+    setTimeout(()=>nameEl.classList.remove("glow"),1000);
 
     const r=img.getBoundingClientRect();
-    clone.style.left=r.left+"px";
-    clone.style.top=r.top+"px";
-    clone.style.width=r.width+"px";
+    const c=img.cloneNode(true);
+    c.className="runner bounce";
+    c.style.position="fixed";
+    c.style.left=r.left+"px";
+    c.style.top=r.top+"px";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),1000);
 
-    document.body.appendChild(clone);
-    setTimeout(()=>clone.remove(),1200);
-
-    nameEl.classList.remove("glow");
-    void nameEl.offsetWidth;
-    nameEl.classList.add("glow");
-  });
+    for(let i=0;i<12;i++){
+      const h=document.createElement("div");
+      h.className="heart";
+      h.innerHTML="💖";
+      h.style.left=r.left+80+"px";
+      h.style.top=r.top+80+"px";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),1600);
+    }
+  };
 });
+
+/* CAKE CUT */
+document.getElementById("cake").onclick=()=>{
+  document.getElementById("cake").classList.add("cut");
+  document.getElementById("wish").innerHTML=
+  "🎉 HAPPY BIRTHDAY PRIYANKA 🎉<br>You are the sweetest part of my smile 💖";
+
+  for(let i=0;i<40;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*innerWidth+"px";
+    h.style.top=Math.random()*innerHeight+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1600);
+  }
+};
 </script>
 
 </body>
