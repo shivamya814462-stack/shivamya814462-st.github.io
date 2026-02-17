@@ -2,101 +2,89 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For Priyanka 💖</title>
+<title>Happy Birthday Priyanka 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   height:100vh;
-  background:radial-gradient(circle,#ff5f9e,#ff2f6d);
+  background:linear-gradient(135deg,#ff5f9e,#ff2f6d);
   font-family:'Segoe UI',sans-serif;
-  overflow:hidden;
   color:#fff;
+  overflow:hidden;
 }
 
 /* NAME */
 #name{
   position:fixed;
-  top:18px;
+  top:15px;
   width:100%;
   text-align:center;
   font-size:34px;
   font-weight:800;
-  z-index:50;
+  z-index:20;
 }
 .glow{
-  text-shadow:0 0 15px #fff,0 0 35px #ffb6c1,0 0 70px #ff2f6d;
+  text-shadow:0 0 15px #fff,0 0 35px pink,0 0 60px deeppink;
 }
 
-/* IMAGE FIELD */
-#field{
+/* FLOATING IMAGES */
+#floatImages{
   position:fixed;
   inset:0;
   z-index:1;
-}
-.runner{
-  position:absolute;
-  width:160px;
-  border-radius:18px;
-  cursor:pointer;
-  box-shadow:0 15px 40px rgba(0,0,0,.4);
-}
-.lr{top:25%;animation:lr 14s linear infinite}
-.rl{top:60%;animation:rl 16s linear infinite}
-@keyframes lr{from{left:-200px}to{left:110vw}}
-@keyframes rl{from{left:110vw}to{left:-200px}}
-
-.bounce{
-  animation:bounce 1s ease-out forwards!important;
-  z-index:100;
-}
-@keyframes bounce{
-  0%{transform:scale(1)}
-  40%{transform:scale(1.4)}
-  100%{transform:scale(1)}
-}
-
-/* HEARTS */
-.heart{
-  position:fixed;
-  font-size:22px;
-  animation:fly 1.6s ease-out forwards;
   pointer-events:none;
 }
-@keyframes fly{
-  to{transform:translateY(-140px) scale(1.6);opacity:0}
+.float-img{
+  position:absolute;
+  width:90px;
+  border-radius:14px;
+  opacity:.9;
+  animation:floatMove 18s linear infinite;
+}
+.float-img:nth-child(2){animation-duration:22s}
+.float-img:nth-child(3){animation-duration:26s}
+
+@keyframes floatMove{
+  from{transform:translateY(110vh)}
+  to{transform:translateY(-120vh)}
 }
 
-/* GAME CARD */
-#game{
-  position:absolute;
-  inset:0;
+/* PUZZLE SCREEN */
+#screen{
+  height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
+  text-align:center;
+  padding:20px;
+  position:relative;
   z-index:10;
 }
 .card{
-  background:rgba(255,255,255,.15);
+  width:100%;
+  max-width:360px;
+  background:rgba(255,255,255,0.15);
   backdrop-filter:blur(10px);
-  padding:35px;
   border-radius:22px;
-  width:330px;
-  text-align:center;
-  box-shadow:0 30px 60px rgba(0,0,0,.4);
+  padding:30px;
+  box-shadow:0 25px 50px rgba(0,0,0,.4);
 }
-h2{margin-bottom:15px}
-#text{min-height:80px;font-size:18px}
+#question{
+  font-size:20px;
+  min-height:90px;
+}
 
 /* BUTTONS */
-.btns{
-  margin-top:20px;
+.buttons{
+  margin-top:25px;
   display:flex;
-  justify-content:space-around;
+  justify-content:space-between;
 }
 button{
-  padding:12px 24px;
+  width:45%;
+  padding:12px 0;
   border:none;
   border-radius:30px;
   font-size:16px;
@@ -105,27 +93,47 @@ button{
 .yes{background:#00ffb3;color:#000}
 .no{background:#ff4757;color:#fff;position:relative}
 
-/* CAKE */
-#cakeBox{
+/* CAKE SCREEN */
+#cakeScreen{
   display:none;
-  position:absolute;
-  inset:0;
-  z-index:20;
-  display:flex;
+  height:100vh;
   align-items:center;
   justify-content:center;
   flex-direction:column;
+  position:relative;
+  z-index:15;
 }
 #cake{
-  font-size:130px;
+  font-size:140px;
   cursor:pointer;
   transition:.4s;
 }
-.cut{transform:rotate(-10deg) scale(1.1)}
+.cut{transform:rotate(-12deg) scale(1.1)}
 #wish{
   margin-top:20px;
   font-size:22px;
   text-align:center;
+}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  font-size:22px;
+  animation:float 1.8s ease-out forwards;
+}
+@keyframes float{
+  to{transform:translateY(-160px) scale(1.6);opacity:0}
+}
+
+/* FIREWORKS */
+.firework{
+  position:fixed;
+  font-size:26px;
+  animation:boom 1.4s ease-out forwards;
+}
+@keyframes boom{
+  0%{transform:scale(.2);opacity:1}
+  100%{transform:scale(2.2);opacity:0}
 }
 </style>
 </head>
@@ -134,17 +142,18 @@ button{
 
 <div id="name">PRIYANKA 💖</div>
 
-<div id="field">
-  <img src="photo1.jpg" class="runner lr">
-  <img src="photo2.jpg" class="runner rl">
+<!-- FLOATING SMALL IMAGES -->
+<div id="floatImages">
+  <img src="photo1.jpg" class="float-img" style="left:10%">
+  <img src="photo2.jpg" class="float-img" style="left:45%">
+  <img src="photo3.jpg" class="float-img" style="left:75%">
 </div>
 
 <!-- PUZZLE -->
-<div id="game">
+<div id="screen">
   <div class="card">
-    <h2>Romantic Puzzle 💌</h2>
-    <div id="text"></div>
-    <div class="btns">
+    <div id="question"></div>
+    <div class="buttons">
       <button class="yes">YES</button>
       <button class="no">NO</button>
     </div>
@@ -152,93 +161,82 @@ button{
 </div>
 
 <!-- CAKE -->
-<div id="cakeBox">
+<div id="cakeScreen">
   <div id="cake">🎂</div>
   <div id="wish"></div>
 </div>
 
 <script>
-/* PUZZLE TEXT */
-const steps=[
-  "Priyanka… kya tumhe surprises pasand hain? 😌",
-  "Kya tumhara smile sabse cute hai? 💕",
-  "Kya tumhe ye moment special lag raha hai? ✨",
-  "Kya tum thoda sa pagalpan enjoy karti ho? 😜",
-  "Last one… kya tum ready ho celebration ke liye? 🎂"
+/* QUESTIONS */
+const questions=[
+  "Hi Priyanka 😊 Ready for a birthday game?",
+  "Do surprises make birthdays special? 🎁",
+  "Is your smile your biggest charm? 💕",
+  "Do small efforts matter to you? ✨",
+  "Can moments turn into memories? 🌸",
+  "Are you enjoying this little journey? 😌",
+  "Shall we celebrate your birthday now? 🎉"
 ];
 
-let step=0;
-const textEl=document.getElementById("text");
-const nameEl=document.getElementById("name");
+let index=0;
+const q=document.getElementById("question");
+const name=document.getElementById("name");
 
-function typeText(t){
-  textEl.innerHTML="";
+function showQuestion(){
+  q.innerHTML="";
   let i=0;
-  const iv=setInterval(()=>{
-    textEl.innerHTML+=t[i++];
-    if(i>=t.length) clearInterval(iv);
+  const t=setInterval(()=>{
+    q.innerHTML+=questions[index][i++];
+    if(i>=questions[index].length) clearInterval(t);
   },40);
 }
-typeText(steps[0]);
+showQuestion();
 
 /* YES */
 document.querySelector(".yes").onclick=()=>{
-  step++;
-  if(step<steps.length){
-    typeText(steps[step]);
+  index++;
+  if(index<questions.length){
+    showQuestion();
   }else{
-    document.getElementById("game").style.display="none";
-    document.getElementById("cakeBox").style.display="flex";
+    document.getElementById("screen").style.display="none";
+    document.getElementById("cakeScreen").style.display="flex";
   }
 };
 
-/* NO */
+/* NO MOVE */
 document.querySelector(".no").onclick=e=>{
-  e.target.style.left=Math.random()*120-60+"px";
-  e.target.style.top=Math.random()*80-40+"px";
+  e.target.style.transform=
+    `translate(${Math.random()*80-40}px,${Math.random()*60-30}px)`;
 };
 
-/* IMAGE CLICK MAGIC */
-document.querySelectorAll(".runner").forEach(img=>{
-  img.onclick=()=>{
-    nameEl.classList.add("glow");
-    setTimeout(()=>nameEl.classList.remove("glow"),1000);
-
-    const r=img.getBoundingClientRect();
-    const c=img.cloneNode(true);
-    c.className="runner bounce";
-    c.style.position="fixed";
-    c.style.left=r.left+"px";
-    c.style.top=r.top+"px";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),1000);
-
-    for(let i=0;i<12;i++){
-      const h=document.createElement("div");
-      h.className="heart";
-      h.innerHTML="💖";
-      h.style.left=r.left+80+"px";
-      h.style.top=r.top+80+"px";
-      document.body.appendChild(h);
-      setTimeout(()=>h.remove(),1600);
-    }
-  };
-});
-
-/* CAKE CUT */
+/* CAKE CUT + CELEBRATION */
 document.getElementById("cake").onclick=()=>{
   document.getElementById("cake").classList.add("cut");
-  document.getElementById("wish").innerHTML=
-  "🎉 HAPPY BIRTHDAY PRIYANKA 🎉<br>You are the sweetest part of my smile 💖";
+  name.classList.add("glow");
 
-  for(let i=0;i<40;i++){
+  document.getElementById("wish").innerHTML=
+   "🎉 HAPPY BIRTHDAY PRIYANKA 🎉<br>You make every moment beautiful 💖";
+
+  // hearts
+  for(let i=0;i<30;i++){
     const h=document.createElement("div");
     h.className="heart";
     h.innerHTML="💖";
     h.style.left=Math.random()*innerWidth+"px";
     h.style.top=Math.random()*innerHeight+"px";
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),1600);
+    setTimeout(()=>h.remove(),1800);
+  }
+
+  // fireworks
+  for(let i=0;i<25;i++){
+    const f=document.createElement("div");
+    f.className="firework";
+    f.innerHTML="🎆";
+    f.style.left=Math.random()*innerWidth+"px";
+    f.style.top=Math.random()*innerHeight+"px";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1400);
   }
 };
 </script>
