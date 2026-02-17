@@ -22,15 +22,17 @@ body{
   font-size:32px;
   font-weight:700;
   color:#fff;
-  z-index:5;
+  z-index:20;
+  pointer-events:none;
 }
 
-/* IMAGE CONTAINER */
+/* IMAGE CONTAINER (BACKGROUND ONLY) */
 #field{
   position:fixed;
   inset:0;
   overflow:hidden;
   z-index:1;
+  pointer-events:none;   /* 🔥 MOST IMPORTANT FIX */
 }
 
 /* RUNNING IMAGE */
@@ -39,52 +41,56 @@ body{
   width:180px;
   border-radius:22px;
   box-shadow:0 15px 40px rgba(0,0,0,.35);
-  cursor:pointer;
   animation-timing-function:linear;
+  pointer-events:auto;   /* images still clickable */
+  cursor:pointer;
 }
 
 /* DIRECTIONS */
-.leftRight{ animation:lr 14s linear infinite; top:20%; }
-.rightLeft{ animation:rl 16s linear infinite; top:55%; }
-.topBottom{ animation:tb 18s linear infinite; left:15%; }
-.bottomTop{ animation:bt 20s linear infinite; left:65%; }
+.leftRight{ top:20%; animation:lr 14s linear infinite; }
+.rightLeft{ top:55%; animation:rl 16s linear infinite; }
+.topBottom{ left:15%; animation:tb 18s linear infinite; }
+.bottomTop{ left:65%; animation:bt 20s linear infinite; }
 
-@keyframes lr{
-  from{transform:translateX(-120%)}
-  to{transform:translateX(120vw)}
-}
-@keyframes rl{
-  from{transform:translateX(120vw)}
-  to{transform:translateX(-120%)}
-}
-@keyframes tb{
-  from{transform:translateY(-120%)}
-  to{transform:translateY(120vh)}
-}
-@keyframes bt{
-  from{transform:translateY(120vh)}
-  to{transform:translateY(-120%)}
-}
+@keyframes lr{from{transform:translateX(-120%)}to{transform:translateX(120vw)}}
+@keyframes rl{from{transform:translateX(120vw)}to{transform:translateX(-120%)}}
+@keyframes tb{from{transform:translateY(-120%)}to{transform:translateY(120vh)}}
+@keyframes bt{from{transform:translateY(120vh)}to{transform:translateY(-120%)}}
 
-/* BOUNCE DUPLICATE */
-.bounce{
-  animation:bounce 1.2s ease-out forwards !important;
-  z-index:10;
+/* DUPLICATE BOUNCE */
+.clone{
+  position:fixed;
+  z-index:50;
+  animation:bounce 1.2s ease-out forwards;
+  pointer-events:none;
 }
 @keyframes bounce{
   0%{transform:scale(1)}
-  30%{transform:scale(1.3)}
-  60%{transform:scale(.9)}
+  40%{transform:scale(1.4)}
+  70%{transform:scale(.9)}
   100%{transform:scale(1)}
 }
 
-/* PAGE CONTENT */
+/* NAME GLOW */
+.glow{
+  animation:glow 1.2s ease-in-out;
+}
+@keyframes glow{
+  0%{text-shadow:0 0 5px #fff}
+  50%{
+    text-shadow:0 0 20px #fff,0 0 40px #ff2f6d;
+    transform:scale(1.15);
+  }
+  100%{text-shadow:0 0 5px #fff}
+}
+
+/* PAGE CONTENT (CLICKABLE) */
 .page{
   position:relative;
-  z-index:4;
+  z-index:10;   /* 🔥 above background */
   min-height:100vh;
-  text-align:center;
   padding-top:120px;
+  text-align:center;
   color:#fff;
 }
 button{
@@ -95,15 +101,16 @@ button{
   background:#ff2f6d;
   color:#fff;
   margin-top:25px;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="name">PRIYANKA 💖</div>
+<div class="name" id="herName">PRIYANKA 💖</div>
 
-<!-- IMAGE FIELD -->
+<!-- BACKGROUND RUNNING IMAGES -->
 <div id="field">
   <img src="photo1.jpg" class="runner leftRight">
   <img src="photo2.jpg" class="runner rightLeft">
@@ -111,28 +118,35 @@ button{
   <img src="photo1.jpg" class="runner bottomTop">
 </div>
 
-<!-- PAGE -->
+<!-- CLICKABLE UI -->
 <div class="page">
   <h1>Just for You 💕</h1>
   <p>Tap any photo ✨</p>
-  <button>Enjoy the Magic 💫</button>
+  <button onclick="alert('Button works 😍')">Enjoy the Magic 💫</button>
 </div>
 
 <script>
-/* CLICK → DUPLICATE + BOUNCE */
-document.querySelectorAll(".runner").forEach(img=>{
-  img.addEventListener("click",()=>{
-    const clone=img.cloneNode(true);
-    clone.classList.remove("leftRight","rightLeft","topBottom","bottomTop");
-    clone.classList.add("bounce");
+const nameEl=document.getElementById("herName");
 
-    clone.style.left=img.getBoundingClientRect().left+"px";
-    clone.style.top=img.getBoundingClientRect().top+"px";
-    clone.style.position="fixed";
+/* IMAGE CLICK */
+document.querySelectorAll(".runner").forEach(img=>{
+  img.addEventListener("click",(e)=>{
+    e.stopPropagation();
+
+    const clone=img.cloneNode(true);
+    clone.className="clone";
+
+    const r=img.getBoundingClientRect();
+    clone.style.left=r.left+"px";
+    clone.style.top=r.top+"px";
+    clone.style.width=r.width+"px";
 
     document.body.appendChild(clone);
+    setTimeout(()=>clone.remove(),1200);
 
-    setTimeout(()=>clone.remove(),1300);
+    nameEl.classList.remove("glow");
+    void nameEl.offsetWidth;
+    nameEl.classList.add("glow");
   });
 });
 </script>
