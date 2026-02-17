@@ -2,51 +2,231 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For Priyanka ❤️</title>
+<title>For Priyanka 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(120deg,#ff5f9e,#ff87ab);
+  overflow:hidden;
+  text-align:center;
+}
+
+/* NAME */
+.name{
+  font-size:34px;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:10px;
+  letter-spacing:2px;
+}
+
+/* RUNNING SLIDESHOW */
+.runner{
+  position:fixed;
+  top:50%;
+  left:-40%;
+  transform:translateY(-50%);
+  z-index:0;
+}
+.runner img{
+  width:240px;
+  border-radius:25px;
+  box-shadow:0 20px 45px rgba(0,0,0,.35);
+  animation:run 7s linear infinite;
+}
+@keyframes run{
+  0%{transform:translateX(-120%)}
+  100%{transform:translateX(220%)}
+}
+
+/* PAGES */
+.page{
+  display:none;
+  min-height:100vh;
+  padding:60px 20px;
+  position:relative;
+  z-index:2;
+}
+.page.active{display:block}
+h1,p{color:#fff}
+
+/* BUTTONS */
+button{
+  padding:14px 28px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  margin:12px;
+  cursor:pointer;
+}
+.next{background:#ff2f6d;color:#fff}
+.yes{background:#2ecc71;color:#fff}
+.no{background:#e74c3c;color:#fff;position:absolute}
+
+/* TYPEWRITER */
+.type{
+  font-size:20px;
+  margin-top:20px;
+  min-height:60px;
+}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:24px;
+  animation:float 6s linear forwards;
+  z-index:3;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0}
+}
+
+/* CAKE */
+#cake{
+  font-size:120px;
+  cursor:pointer;
+  transition:.6s;
+}
+.cut{transform:scale(1.15) rotate(-8deg)}
+
+/* PUZZLE */
+.puzzle{
+  background:rgba(255,255,255,.15);
+  border-radius:25px;
+  padding:25px;
+  max-width:420px;
+  margin:auto;
+  backdrop-filter:blur(10px);
+}
+.option{
+  background:#fff;
+  color:#ff2f6d;
+  padding:12px;
+  border-radius:20px;
+  margin:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+.option:hover{background:#ffe1ec}
+</style>
 </head>
+
 <body>
 
+<!-- RUNNING PHOTO -->
+<div class="runner">
+  <img id="slide" src="photo1.jpg">
+</div>
+
 <!-- PAGE 1 -->
-<section class="page active" id="page1">
-  <h1>Hi <span class="name">PRIYANKA</span> 💖</h1>
-  <p id="typeText"></p>
-  <button onclick="nextPage()">Next ➜</button>
-</section>
+<div class="page active" id="p1">
+  <div class="name">PRIYANKA 💖</div>
+  <h1>Hey Beautiful 🌸</h1>
+  <p class="type" id="t1"></p>
+  <button class="next" onclick="go(2)">Start Surprise 🎁</button>
+</div>
 
-<!-- PAGE 2 SLIDESHOW -->
-<section class="page" id="page2">
-  <h2>You are special, <span class="name">PRIYANKA</span> 💕</h2>
-  <img id="slide" src="images/p1.jpg">
-  <button onclick="nextPage()">Continue ➜</button>
-</section>
-
-<!-- PAGE 3 PUZZLE -->
-<section class="page" id="page3">
-  <h2>Puzzle Time 🧩</h2>
-  <p class="puzzle">
-    Roses are red 🌹<br>
-    Sky is blue 💙<br>
-    My smile exists 😄<br>
-    Only because of you 💖
-  </p>
-  <p>Will you stay with me forever, <span class="name">PRIYANKA</span>?</p>
-
-  <div class="btn-box">
-    <button id="yesBtn" onclick="yesClicked()">YES ❤️</button>
-    <button id="noBtn" onmouseover="moveNo()">NO 🙈</button>
+<!-- PAGE 2 : LONG PUZZLE -->
+<div class="page" id="p2">
+  <div class="name">PRIYANKA 💕</div>
+  <h1>🧩 Little Puzzle</h1>
+  <div class="puzzle">
+    <p>Which one is TRUE about you?</p>
+    <div class="option" onclick="wrong()">I am ordinary 😐</div>
+    <div class="option" onclick="wrong()">I don't matter 😕</div>
+    <div class="option" onclick="correct()">I make Shivam smile 😍</div>
   </div>
-</section>
+</div>
 
-<!-- PAGE 4 FINAL -->
-<section class="page" id="page4">
-  <h1>❤️ PRIYANKA ❤️</h1>
-  <img src="images/priyanka.jpg" class="final-img">
-  <p>Thank you for saying YES 🥹💖</p>
-  <div id="cake">🎂</div>
-</section>
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <div class="name">PRIYANKA ❤️</div>
+  <h1>One Question 😏</h1>
+  <p>Will you stay this cute forever?</p>
+  <button class="yes" onclick="celebrate()">YES 💖</button>
+  <button class="no" id="noBtn">NO 😜</button>
+</div>
 
-<script src="script.js"></script>
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <div class="name">Happy Birthday PRIYANKA 🎂</div>
+  <div id="cake" onclick="cutCake()">🧁</div>
+  <p id="cakeText">Tap the cake 👆</p>
+</div>
+
+<script>
+/* NAME FIX */
+const HER_NAME="PRIYANKA";
+
+/* PAGE */
+function go(n){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById("p"+n).classList.add("active");
+}
+
+/* TYPEWRITER */
+const text1="A little magic is waiting just for you 💫";
+let i=0;
+function type(){
+ if(i<text1.length){
+  document.getElementById("t1").innerHTML+=text1.charAt(i);
+  i++;setTimeout(type,60);
+ }
+}
+type();
+
+/* PUZZLE */
+function wrong(){
+ alert("Nope 😜 Try again!");
+}
+function correct(){
+ go(3);
+}
+
+/* NO BUTTON RUN */
+const noBtn=document.getElementById("noBtn");
+noBtn.onmouseover=()=>{
+ noBtn.style.left=Math.random()*(innerWidth-120)+"px";
+ noBtn.style.top=Math.random()*(innerHeight-60)+"px";
+};
+
+/* HEARTS */
+function hearts(){
+ setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+ },300);
+}
+
+/* CELEBRATE */
+function celebrate(){
+ go(4);
+ hearts();
+}
+
+/* CAKE */
+function cutCake(){
+ document.getElementById("cake").classList.add("cut");
+ document.getElementById("cakeText").innerHTML=
+ `🎉 HAPPY BIRTHDAY ${priyanka} 🎉<br>You are truly special 💖`;
+}
+
+/* RUNNING SLIDES */
+const photos=["photo1.jpg","photo2.jpg","photo3.jpg"];
+let s=0;
+setInterval(()=>{
+ document.getElementById("slide").src=photos[s];
+ s=(s+1)%photos.length;
+},7000);
+</script>
+
 </body>
 </html>
