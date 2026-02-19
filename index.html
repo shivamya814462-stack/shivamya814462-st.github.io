@@ -7,13 +7,30 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   height:100vh;
-  background:linear-gradient(135deg,#ff5f9e,#ff2f6d);
   font-family:'Segoe UI',sans-serif;
   color:#fff;
   overflow:hidden;
 }
+
+/* 🌸 BACKGROUND SLIDESHOW */
+#bgSlideshow{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+.bg-slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transition:opacity 3s ease-in-out;
+  filter:brightness(0.6) blur(2px);
+}
+.bg-slide.active{opacity:1}
 
 /* NAME */
 #name{
@@ -27,28 +44,6 @@ body{
 }
 .glow{
   text-shadow:0 0 15px #fff,0 0 35px pink,0 0 60px deeppink;
-}
-
-/* FLOATING IMAGES */
-#floatImages{
-  position:fixed;
-  inset:0;
-  z-index:1;
-  pointer-events:none;
-}
-.float-img{
-  position:absolute;
-  width:90px;
-  border-radius:14px;
-  opacity:.9;
-  animation:floatMove 18s linear infinite;
-}
-.float-img:nth-child(2){animation-duration:22s}
-.float-img:nth-child(3){animation-duration:26s}
-
-@keyframes floatMove{
-  from{transform:translateY(110vh)}
-  to{transform:translateY(-120vh)}
 }
 
 /* PUZZLE SCREEN */
@@ -65,11 +60,11 @@ body{
 .card{
   width:100%;
   max-width:360px;
-  background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(10px);
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(12px);
   border-radius:22px;
   padding:30px;
-  box-shadow:0 25px 50px rgba(0,0,0,.4);
+  box-shadow:0 25px 50px rgba(0,0,0,.45);
 }
 #question{
   font-size:20px;
@@ -140,14 +135,14 @@ button{
 
 <body>
 
-<div id="name">PRIYANKA 💖</div>
-
-<!-- FLOATING SMALL IMAGES -->
-<div id="floatImages">
-  <img src="photo1.jpg" class="float-img" style="left:10%">
-  <img src="photo2.jpg" class="float-img" style="left:45%">
-  <img src="photo3.jpg" class="float-img" style="left:75%">
+<!-- 🌸 BACKGROUND IMAGES -->
+<div id="bgSlideshow">
+  <div class="bg-slide active" style="background-image:url('photo1.jpg')"></div>
+  <div class="bg-slide" style="background-image:url('photo2.jpg')"></div>
+  <div class="bg-slide" style="background-image:url('photo3.jpg')"></div>
 </div>
+
+<div id="name">PRIYANKA 💖</div>
 
 <!-- PUZZLE -->
 <div id="screen">
@@ -167,6 +162,15 @@ button{
 </div>
 
 <script>
+/* 🌸 BACKGROUND SLIDESHOW LOGIC */
+const bgSlides=document.querySelectorAll(".bg-slide");
+let bgIndex=0;
+setInterval(()=>{
+  bgSlides[bgIndex].classList.remove("active");
+  bgIndex=(bgIndex+1)%bgSlides.length;
+  bgSlides[bgIndex].classList.add("active");
+},6000);
+
 /* QUESTIONS */
 const questions=[
   "Hi Priyanka 😊 Ready for a birthday game?",
@@ -209,7 +213,7 @@ document.querySelector(".no").onclick=e=>{
     `translate(${Math.random()*80-40}px,${Math.random()*60-30}px)`;
 };
 
-/* CAKE CUT + CELEBRATION */
+/* CAKE CUT */
 document.getElementById("cake").onclick=()=>{
   document.getElementById("cake").classList.add("cut");
   name.classList.add("glow");
@@ -217,7 +221,6 @@ document.getElementById("cake").onclick=()=>{
   document.getElementById("wish").innerHTML=
    "🎉 HAPPY BIRTHDAY PRIYANKA 🎉<br>You make every moment beautiful 💖";
 
-  // hearts
   for(let i=0;i<30;i++){
     const h=document.createElement("div");
     h.className="heart";
@@ -228,7 +231,6 @@ document.getElementById("cake").onclick=()=>{
     setTimeout(()=>h.remove(),1800);
   }
 
-  // fireworks
   for(let i=0;i<25;i++){
     const f=document.createElement("div");
     f.className="firework";
